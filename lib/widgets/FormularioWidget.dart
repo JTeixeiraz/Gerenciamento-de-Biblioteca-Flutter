@@ -4,11 +4,12 @@ abstract class FormularioWidget extends StatefulWidget {
   const FormularioWidget({ Key? key }) : super(key: key);
 }
 
-abstract class _FormularioWidgetState extends State<FormularioWidget> {
+abstract class FormulariowidgetState<T extends FormularioWidget> extends State<T> {
+
+  bool validar();
+  void limpar();
+  Future<void> salvar();
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      
-    );
-  }
+  Widget build(BuildContext context);
 }

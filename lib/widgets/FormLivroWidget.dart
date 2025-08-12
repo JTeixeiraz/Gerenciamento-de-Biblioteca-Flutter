@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:atividade/widgets/FormLivroWidget.dart';
 import 'package:atividade/widgets/FormularioWidget.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ class FormularioLivroWidget extends FormularioWidget {
   final Function(Livro) onSalvar;
   final VoidCallback? onCancelar;
 
-  const FormularioLivroWidget({
+  FormularioLivroWidget({
     Key? key,
     this.livroParaEdicao,
     required this.onSalvar,
@@ -17,7 +19,7 @@ class FormularioLivroWidget extends FormularioWidget {
   }) : super(key: key);
 
   @override
-  State<FormularioLivroWidgetState> createState() => FormularioLivroWidgetState();
+  FormularioLivroWidgetState createState() => FormularioLivroWidgetState();
 }
 
 class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
@@ -30,6 +32,7 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
   late bool _disponivel;
   late String _descricao;
   bool _isProcessando = false;
+  static HashMap<String, Livro>livros = HashMap<String, Livro>();
 
   @override
   void initState() {
@@ -94,7 +97,11 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
       descricao: _descricao,
     );
 
+    livros[_isbn] = livro;
+
     widget.onSalvar(livro);
+
+
 
     setState(() {
       _isProcessando = false;
