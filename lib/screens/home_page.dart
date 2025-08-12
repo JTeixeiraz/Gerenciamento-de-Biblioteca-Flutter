@@ -5,8 +5,14 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("testeeeeeeeeeeee"),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            
+          ],
+        ),
+      ),
     );
   }
 }
