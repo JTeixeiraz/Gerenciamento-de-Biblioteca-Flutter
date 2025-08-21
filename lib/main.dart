@@ -17,27 +17,23 @@ class MainApp extends StatelessWidget {
       create: (context) => BibliotecaProvider()..inicializarDadosExemplo(),
       child: const MaterialApp(
         home: MyApp(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
 }
 
-
 class MyApp extends StatefulWidget {
-  const MyApp({ Key? key }) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   _MainState createState() => _MainState();
 }
 
 class _MainState extends State<MyApp> {
-
   int _selectedIndex = 0;
 
-  final List<Widget> _screens = [
-    const HomePage(),
-    BooksPage()
-  ];
+  final List<Widget> _screens = [const HomePage(), BooksPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

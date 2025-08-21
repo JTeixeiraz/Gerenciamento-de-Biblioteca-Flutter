@@ -11,12 +11,15 @@ class EstatisticasDashboardWidget extends StatelessWidget {
     return Consumer<BibliotecaProvider>(
       builder: (context, provider, child) {
         final totalLivros = provider.livros.length;
-        final livrosDisponiveis = provider.livros.where((l) => l.disponivel).length;
+        final livrosDisponiveis =
+            provider.livros.where((l) => l.disponivel).length;
         final livrosEmprestados = totalLivros - livrosDisponiveis;
         final totalUsuarios = provider.usuarios.length;
         final usuariosAtivos = provider.usuarios.where((u) => u.ativo).length;
-        final emprestimosAtivos = provider.emprestimos.where((e) => e.ativo).length;
-        final emprestimosAtrasados = provider.emprestimos.where((e) => e.estaAtrasado).length;
+        final emprestimosAtivos =
+            provider.emprestimos.where((e) => e.ativo).length;
+        final emprestimosAtrasados =
+            provider.emprestimos.where((e) => e.estaAtrasado).length;
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,64 +36,69 @@ class EstatisticasDashboardWidget extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Dashboard da Biblioteca',
+                    'Dashboard',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue.shade700,
-                    ),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue.shade700,
+                        ),
                   ),
                 ],
               ),
             ),
 
             // Estatísticas principais em cards
+            // Seção de Estatísticas do Dashboard
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                childAspectRatio: 1.5,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const BooksPage()),
-                      );
-                    },
-                    child: _buildStatCard(
-                      title: 'Total de Livros',
-                      value: totalLivros.toString(),
-                      icon: Icons.library_books,
-                      color: Colors.blue,
-                      subtitle: '$livrosDisponiveis disponíveis',
-                    ),
-                  ),
-                  _buildStatCard(
-                    title: 'Empréstimos Ativos',
-                    value: emprestimosAtivos.toString(),
-                    icon: Icons.book_online,
-                    color: Colors.orange,
-                    subtitle: '$livrosEmprestados livros emprestados',
-                  ),
-                  _buildStatCard(
-                    title: 'Total de Usuários',
-                    value: totalUsuarios.toString(),
-                    icon: Icons.people,
-                    color: Colors.green,
-                    subtitle: '$usuariosAtivos ativos',
-                  ),
-                  _buildStatCard(
-                    title: 'Empréstimos Atrasados',
-                    value: emprestimosAtrasados.toString(),
-                    icon: Icons.warning,
-                    color: Colors.red,
-                    subtitle: emprestimosAtrasados > 0 ? 'Requer atenção!' : 'Tudo em dia!',
-                  ),
-                ],
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  // Define a largura mínima de cada card
+                  const double minCardWidth = 150;
+                  // Calcula o número de colunas com base na largura disponível
+                  final crossAxisCount =
+                      (constraints.maxWidth / minCardWidth).floor();
+
+                  return GridView.count(
+                    crossAxisCount: crossAxisCount > 0 ? crossAxisCount : 1,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    childAspectRatio: 1.5, // Mantém a proporção para o card
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    children: [
+                      _buildStatCard(
+                        title: 'Total de Livros',
+                        value: totalLivros.toString(),
+                        icon: Icons.library_books,
+                        color: Colors.blue,
+                        subtitle: '$livrosDisponiveis disponíveis',
+                      ),
+                      _buildStatCard(
+                        title: 'Empréstimos Ativos',
+                        value: emprestimosAtivos.toString(),
+                        icon: Icons.book_online,
+                        color: Colors.orange,
+                        subtitle: '$livrosEmprestados livros emprestados',
+                      ),
+                      _buildStatCard(
+                        title: 'Total de Usuários',
+                        value: totalUsuarios.toString(),
+                        icon: Icons.people,
+                        color: Colors.green,
+                        subtitle: '$usuariosAtivos ativos',
+                      ),
+                      _buildStatCard(
+                        title: 'Em Atrasados',
+                        value: emprestimosAtrasados.toString(),
+                        icon: Icons.warning,
+                        color: Colors.red,
+                        subtitle: emprestimosAtrasados > 0
+                            ? 'Requer atenção!'
+                            : 'Tudo em dia!',
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
 
@@ -103,12 +111,11 @@ class EstatisticasDashboardWidget extends StatelessWidget {
                 child: Text(
                   'Atividade Recente',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
               const SizedBox(height: 12),
-
               _buildAtividadeRecente(provider),
             ],
 
@@ -121,12 +128,11 @@ class EstatisticasDashboardWidget extends StatelessWidget {
                 child: Text(
                   'Livros Mais Emprestados',
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ),
               const SizedBox(height: 12),
-
               _buildLivrosMaisPopulares(provider),
             ],
           ],
@@ -164,12 +170,12 @@ class EstatisticasDashboardWidget extends StatelessWidget {
                 Icon(
                   icon,
                   color: color,
-                  size: 24,
+                  size: 22,
                 ),
                 Text(
                   value,
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: color,
                   ),
@@ -200,8 +206,7 @@ class EstatisticasDashboardWidget extends StatelessWidget {
 
   Widget _buildAtividadeRecente(BibliotecaProvider provider) {
     // Pegar os 3 empréstimos mais recentes
-    final emprestimosRecentes = provider.emprestimos
-        .toList()
+    final emprestimosRecentes = provider.emprestimos.toList()
       ..sort((a, b) => b.dataEmprestimo.compareTo(a.dataEmprestimo));
 
     final emprestimosParaMostrar = emprestimosRecentes.take(3).toList();
@@ -260,17 +265,14 @@ class EstatisticasDashboardWidget extends StatelessWidget {
             ),
             trailing: emprestimo.ativo
                 ? Chip(
-              label: Text(
-                isAtrasado
-                    ? 'Atrasado'
-                    : '${emprestimo.diasRestantes}d',
-                style: const TextStyle(fontSize: 10),
-              ),
-              backgroundColor: isAtrasado
-                  ? Colors.red.shade100
-                  : Colors.blue.shade100,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            )
+                    label: Text(
+                      isAtrasado ? 'Atrasado' : '${emprestimo.diasRestantes}d',
+                      style: const TextStyle(fontSize: 10),
+                    ),
+                    backgroundColor:
+                        isAtrasado ? Colors.red.shade100 : Colors.blue.shade100,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  )
                 : const Icon(Icons.check_circle, color: Colors.green),
           );
         },
@@ -316,7 +318,7 @@ class EstatisticasDashboardWidget extends StatelessWidget {
 
           // Encontrar o livro para pegar mais detalhes
           final livro = provider.livros.firstWhere(
-                (l) => l.id == livroId,
+            (l) => l.id == livroId,
             orElse: () => provider.livros.first,
           );
 

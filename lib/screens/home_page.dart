@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sistema de Biblioteca Digital'),
+        title: const Text('Biblioteca Digital'),
         backgroundColor: Colors.indigo.shade700,
         foregroundColor: Colors.white,
         elevation: 2,
@@ -270,7 +270,6 @@ class _HomePageState extends State<HomePage> {
     required VoidCallback onTap,
   }) {
     return Expanded(
-      // Adiciona o Expanded aqui para que o Card ocupe o espaço
       child: Card(
         elevation: 4,
         child: InkWell(
