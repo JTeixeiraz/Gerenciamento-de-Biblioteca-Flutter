@@ -1,10 +1,7 @@
 import 'dart:collection';
-
-import 'package:atividade/widgets/FormLivroWidget.dart';
 import 'package:atividade/widgets/FormularioWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:atividade/classes/Livro.dart';
-import 'package:atividade/widgets/LivroWidgets.dart';
 
 class FormularioLivroWidget extends FormularioWidget {
   final Livro? livroParaEdicao;
