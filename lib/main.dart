@@ -1,7 +1,9 @@
+import 'package:atividade/provider/BibliotecaProvider.dart';
 import 'package:atividade/screens/books_page.dart';
 import 'package:atividade/screens/form_screen.dart';
 import 'package:atividade/screens/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,9 +13,12 @@ class MainApp extends StatelessWidget {
   const MainApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return ChangeNotifierProvider(
+      create: (context) => BibliotecaProvider()..inicializarDadosExemplo(),
+      child: const MaterialApp(
         home: MyApp(),
-      );
+      ),
+    );
   }
 }
 
@@ -31,7 +36,6 @@ class _MainState extends State<MyApp> {
 
   final List<Widget> _screens = [
     const HomePage(),
-    FormScreen(),
     BooksPage()
   ];
   @override
@@ -53,12 +57,8 @@ class _MainState extends State<MyApp> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.format_align_center),
-              label: 'Forms'
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Perfil',
+            label: 'Livros',
           ),
         ],
       ),
