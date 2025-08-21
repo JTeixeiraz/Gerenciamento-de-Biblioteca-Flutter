@@ -38,7 +38,8 @@ class _HomePageState extends State<HomePage> {
           PopupMenuButton<String>(
             icon: const Icon(Icons.more_vert),
             onSelected: (value) {
-              final provider = Provider.of<BibliotecaProvider>(context, listen: false);
+              final provider =
+                  Provider.of<BibliotecaProvider>(context, listen: false);
               switch (value) {
                 case 'reset':
                   _mostrarDialogoReset(context, provider);
@@ -96,19 +97,15 @@ class _HomePageState extends State<HomePage> {
                   Text(
                     'Ações Rápidas',
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   const SizedBox(height: 16),
-
-                  // Grid de botões de navegação
-                  GridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    childAspectRatio: 1.2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
+                  Wrap(
+                    spacing: 12, // Espaçamento horizontal entre os cards
+                    runSpacing:
+                        12, // Espaçamento vertical entre as linhas de cards
+                    alignment: WrapAlignment.start, // Alinha os cards ao início
                     children: [
                       _buildActionCard(
                         title: 'Gerenciar Livros',
@@ -117,7 +114,8 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.blue,
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const BooksPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const BooksPage()),
                         ),
                       ),
                       _buildActionCard(
@@ -127,7 +125,8 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.green,
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const UsersPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const UsersPage()),
                         ),
                       ),
                       _buildActionCard(
@@ -137,7 +136,8 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.orange,
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const EmprestimosPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const EmprestimosPage()),
                         ),
                       ),
                       _buildActionCard(
@@ -168,7 +168,8 @@ class _HomePageState extends State<HomePage> {
                     .where((e) => e.diasRestantes <= 3 && !e.estaAtrasado)
                     .toList();
 
-                if (emprestimosAtrasados.isEmpty && emprestimosVencendoEm3Dias.isEmpty) {
+                if (emprestimosAtrasados.isEmpty &&
+                    emprestimosVencendoEm3Dias.isEmpty) {
                   return Container();
                 }
 
@@ -180,8 +181,8 @@ class _HomePageState extends State<HomePage> {
                       Text(
                         'Alertas e Notificações',
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                       const SizedBox(height: 16),
 
@@ -190,7 +191,8 @@ class _HomePageState extends State<HomePage> {
                         Card(
                           color: Colors.red.shade50,
                           child: ListTile(
-                            leading: Icon(Icons.warning, color: Colors.red.shade700),
+                            leading:
+                                Icon(Icons.warning, color: Colors.red.shade700),
                             title: Text(
                               '${emprestimosAtrasados.length} empréstimo(s) atrasado(s)',
                               style: TextStyle(
@@ -198,7 +200,8 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.red.shade700,
                               ),
                             ),
-                            subtitle: const Text('Clique para verificar os empréstimos atrasados'),
+                            subtitle: const Text(
+                                'Clique para verificar os empréstimos atrasados'),
                             trailing: const Icon(Icons.arrow_forward_ios),
                             onTap: () => Navigator.push(
                               context,
@@ -214,7 +217,8 @@ class _HomePageState extends State<HomePage> {
                         Card(
                           color: Colors.orange.shade50,
                           child: ListTile(
-                            leading: Icon(Icons.schedule, color: Colors.orange.shade700),
+                            leading: Icon(Icons.schedule,
+                                color: Colors.orange.shade700),
                             title: Text(
                               '${emprestimosVencendoEm3Dias.length} empréstimo(s) vencendo em breve',
                               style: TextStyle(
@@ -222,7 +226,8 @@ class _HomePageState extends State<HomePage> {
                                 color: Colors.orange.shade700,
                               ),
                             ),
-                            subtitle: const Text('Empréstimos que vencem em até 3 dias'),
+                            subtitle: const Text(
+                                'Empréstimos que vencem em até 3 dias'),
                             trailing: const Icon(Icons.arrow_forward_ios),
                             onTap: () => Navigator.push(
                               context,
@@ -264,60 +269,63 @@ class _HomePageState extends State<HomePage> {
     required Color color,
     required VoidCallback onTap,
   }) {
-    return Card(
-      elevation: 4,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            gradient: LinearGradient(
-              colors: [color.withOpacity(0.1), color.withOpacity(0.05)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+    return Expanded(
+      // Adiciona o Expanded aqui para que o Card ocupe o espaço
+      child: Card(
+        elevation: 4,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              gradient: LinearGradient(
+                colors: [color.withOpacity(0.1), color.withOpacity(0.05)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
             ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    icon,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Icon(
+                      icon,
+                      color: color,
+                      size: 32,
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: color.withOpacity(0.7),
+                      size: 16,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                     color: color,
-                    size: 32,
                   ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: color.withOpacity(0.7),
-                    size: 16,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
                   ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: color,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                subtitle,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
