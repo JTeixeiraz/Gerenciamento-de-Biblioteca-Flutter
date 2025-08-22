@@ -144,15 +144,11 @@ class FormUsuarioWidgetState extends State<FormUsuarioWidget> {
                   if (value == null || value.trim().isEmpty) {
                     return 'Por favor, informe o email';
                   }
-
                   final emailRegExp = RegExp(
-                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-                  );
-
+                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
                   if (!emailRegExp.hasMatch(value.trim())) {
                     return 'Por favor, informe um email válido';
                   }
-
                   return null;
                 },
                 onChanged: (value) => _email = value,
@@ -171,7 +167,6 @@ class FormUsuarioWidgetState extends State<FormUsuarioWidget> {
                 keyboardType: TextInputType.phone,
                 validator: (value) {
                   if (value != null && value.trim().isNotEmpty) {
-                    // Validação simples de telefone
                     final phoneRegExp = RegExp(r'^\(\d{2}\)\s\d{4,5}-\d{4}$');
                     if (!phoneRegExp.hasMatch(value.trim())) {
                       return 'Formato: (11) 99999-9999';
@@ -186,11 +181,6 @@ class FormUsuarioWidgetState extends State<FormUsuarioWidget> {
               // Switch para status ativo
               SwitchListTile(
                 title: const Text('Usuário ativo'),
-                subtitle: Text(
-                    _ativo
-                        ? 'Usuário pode realizar empréstimos'
-                        : 'Usuário não pode realizar empréstimos'
-                ),
                 value: _ativo,
                 onChanged: (value) {
                   setState(() {
@@ -199,9 +189,49 @@ class FormUsuarioWidgetState extends State<FormUsuarioWidget> {
                 },
                 activeColor: Colors.green,
               ),
+              const SizedBox(height: 18),
+
+              Center(
+                child: Text(
+                  _ativo
+                      ? 'Usuário pode realizar empréstimos'
+                      : 'Usuário não pode realizar empréstimos',
+                ),
+              ),
               const SizedBox(height: 24),
 
-              // Botões de ação
+              // Botão principal (Cadastrar/Atualizar)
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isProcessando ? null : _salvar,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: _isProcessando
+                      ? const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                            SizedBox(width: 8),
+                            Text('Salvando...'),
+                          ],
+                        )
+                      : Text(
+                          widget.usuarioParaEdicao == null
+                              ? 'Cadastrar'
+                              : 'Atualizar',
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Botões secundários (Cancelar e Limpar)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -210,34 +240,10 @@ class FormUsuarioWidgetState extends State<FormUsuarioWidget> {
                       onPressed: _isProcessando ? null : widget.onCancelar,
                       child: const Text('Cancelar'),
                     ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 8),
                   TextButton(
                     onPressed: _isProcessando ? null : _limpar,
                     child: const Text('Limpar'),
-                  ),
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: _isProcessando ? null : _salvar,
-                    child: _isProcessando
-                        ? const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Text('Salvando...'),
-                      ],
-                    )
-                        : Text(
-                        widget.usuarioParaEdicao == null
-                            ? 'Cadastrar'
-                            : 'Atualizar'
-                    ),
                   ),
                 ],
               ),
