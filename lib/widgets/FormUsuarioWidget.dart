@@ -1,4 +1,4 @@
-import '../classes/Usuario.dart';
+import '../models/Usuario.dart';
 import 'package:flutter/material.dart';
 
 class FormUsuarioWidget extends StatefulWidget {

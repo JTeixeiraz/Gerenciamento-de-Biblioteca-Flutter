@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../classes/Emprestimo.dart';
-import '../classes/Livro.dart';
-import '../classes/Usuario.dart';
+import '../models/Emprestimo.dart';
+import '../models/Livro.dart';
+import '../models/Usuario.dart';
 import '../provider/BibliotecaProvider.dart';
 
 class FormEmprestimoWidget extends StatefulWidget {

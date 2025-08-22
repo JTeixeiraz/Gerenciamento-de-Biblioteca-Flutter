@@ -1,4 +1,4 @@
-import '../classes/Usuario.dart';
+import '../models/Usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/BibliotecaProvider.dart';
