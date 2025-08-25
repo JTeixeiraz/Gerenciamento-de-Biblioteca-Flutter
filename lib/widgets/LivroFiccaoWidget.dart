@@ -1,4 +1,4 @@
-import 'package:atividade/classes/Livro.dart';
+import 'package:atividade/models/Livro.dart';
 import 'package:atividade/widgets/LivroWidgets.dart';
 import 'package:flutter/material.dart';
 

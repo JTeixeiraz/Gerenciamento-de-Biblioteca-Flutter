@@ -1,6 +1,6 @@
-import 'package:atividade/classes/Emprestimo.dart';
-import 'package:atividade/classes/Livro.dart';
-import 'package:atividade/classes/Usuario.dart';
+import 'package:atividade/models/Emprestimo.dart';
+import 'package:atividade/models/Livro.dart';
+import 'package:atividade/models/Usuario.dart';
 import 'package:flutter/foundation.dart';
 
 class BibliotecaProvider with ChangeNotifier {

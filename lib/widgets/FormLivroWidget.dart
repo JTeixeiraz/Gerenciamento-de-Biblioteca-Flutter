@@ -1,10 +1,7 @@
 import 'dart:collection';
-
-import 'package:atividade/widgets/FormLivroWidget.dart';
 import 'package:atividade/widgets/FormularioWidget.dart';
 import 'package:flutter/material.dart';
-import 'package:atividade/classes/Livro.dart';
-import 'package:atividade/widgets/LivroWidgets.dart';
+import 'package:atividade/models/Livro.dart';
 
 class FormularioLivroWidget extends FormularioWidget {
   final Livro? livroParaEdicao;
@@ -32,7 +29,7 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
   late bool _disponivel;
   late String _descricao;
   bool _isProcessando = false;
-  static HashMap<String, Livro>livros = HashMap<String, Livro>();
+  static HashMap<String, Livro> livros = HashMap<String, Livro>();
 
   @override
   void initState() {
@@ -101,8 +98,6 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
 
     widget.onSalvar(livro);
 
-
-
     setState(() {
       _isProcessando = false;
     });
@@ -117,7 +112,8 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.all(16),
-      child: Padding(
+      child: SingleChildScrollView(
+        // Adicionado SingleChildScrollView aqui
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
@@ -125,7 +121,9 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.livroParaEdicao == null ? "Cadastrar Novo Livro" : "Editar Livro",
+                widget.livroParaEdicao == null
+                    ? "Cadastrar Novo Livro"
+                    : "Editar Livro",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 16),
@@ -223,12 +221,15 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
                 ),
                 items: const [
                   DropdownMenuItem(value: "Ficção", child: Text("Ficção")),
-                  DropdownMenuItem(value: "Não-ficção", child: Text("Não ficção")),
+                  DropdownMenuItem(
+                      value: "Não-ficção", child: Text("Não ficção")),
                   DropdownMenuItem(value: "Técnico", child: Text("Técnico")),
-                  DropdownMenuItem(value: "Acadêmico", child: Text("Acadêmico")),
+                  DropdownMenuItem(
+                      value: "Acadêmico", child: Text("Acadêmico")),
                   DropdownMenuItem(value: "Romance", child: Text("Romance")),
                   DropdownMenuItem(value: "Suspense", child: Text("Suspense")),
-                  DropdownMenuItem(value: "Biografia", child: Text("Biografia")),
+                  DropdownMenuItem(
+                      value: "Biografia", child: Text("Biografia")),
                 ],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -248,7 +249,7 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
 
               // Disponível
               SwitchListTile(
-                title: const Text("Disponível para empréstimo"),
+                title: const Text("Disponível?"),
                 value: _disponivel,
                 onChanged: (value) {
                   setState(() {
@@ -271,7 +272,37 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
               ),
               const SizedBox(height: 24),
 
-              // Botões
+              SizedBox(
+                width: double.infinity, 
+                child: ElevatedButton(
+                  onPressed: _isProcessando ? null : salvar,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  child: _isProcessando
+                      ? const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                            SizedBox(width: 8),
+                            Text("Salvando..."),
+                          ],
+                        )
+                      : Text(
+                          widget.livroParaEdicao == null
+                              ? "Cadastrar"
+                              : "Atualizar",
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                ),
+              ),
+              const SizedBox(height: 8),
+
+              // Botões secundários (Cancelar e Limpar)
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -280,28 +311,10 @@ class FormularioLivroWidgetState extends State<FormularioLivroWidget> {
                       onPressed: _isProcessando ? null : widget.onCancelar,
                       child: const Text("Cancelar"),
                     ),
-                  const SizedBox(width: 16),
+                  const SizedBox(width: 8), // Ajusta o espaçamento
                   TextButton(
                     onPressed: _isProcessando ? null : limpar,
                     child: const Text("Limpar"),
-                  ),
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: _isProcessando ? null : salvar,
-                    child: _isProcessando
-                        ? const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: 16,
-                                height: 16,
-                                child: CircularProgressIndicator(strokeWidth: 2),
-                              ),
-                              SizedBox(width: 8),
-                              Text("Salvando..."),
-                            ],
-                          )
-                        : Text(widget.livroParaEdicao == null ? "Cadastrar" : "Atualizar"),
                   ),
                 ],
               ),

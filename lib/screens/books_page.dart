@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../classes/Livro.dart';
+import '../models/Livro.dart';
 import '../provider/BibliotecaProvider.dart';
 import '../widgets/FormLivroWidget.dart';
 

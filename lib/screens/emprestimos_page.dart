@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../provider/BibliotecaProvider.dart';
 import '../widgets/FormEmprestimoWidget.dart';
-import '../classes/Emprestimo.dart';
+import '../models/Emprestimo.dart';
 
 class EmprestimosPage extends StatefulWidget {
   const EmprestimosPage({Key? key}) : super(key: key);
